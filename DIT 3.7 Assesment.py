@@ -1,7 +1,9 @@
 from tkinter import*
 from tkinter import messagebox
+from tkinter.scrolledtext import*
 
-class Menu_items:
+
+class MenuItems:
 #class that makes the menu items 
     def __init__(self, menu_item_name, price):
         self.menu_item_name = menu_item_name
@@ -12,15 +14,15 @@ class Menu_items:
 
 class SimpleGUI:
     def __init__(self, parent):
-
+        
 #stores menu items as an attribute
-        self.menu_items = [Menu_items("Burger", 17),
-                           Menu_items("Cabbage and Lettuce", 18),
-                           Menu_items("Chicken Tikka Mo Salah", 22),
-                           Menu_items("50g of Rump Steak", 26),
-                           Menu_items("Pesto Pasta", 27),
-                           Menu_items("HUGE burger", 34),
-                           Menu_items("Lobster agnolotti", 43)]   
+        self.menu_items = [MenuItems("Burger", 17),
+                           MenuItems("Cabbage and Lettuce", 18),
+                           MenuItems("Chicken Tikka Mo Salah", 22),
+                           MenuItems("50g of Rump Steak", 26),
+                           MenuItems("Pesto Pasta", 27),
+                           MenuItems("HUGE burger", 34),
+                           MenuItems("Lobster agnolotti", 43)]    
         
 #stores the varible selected from the dropdown list 
         self.list_val = StringVar()
@@ -29,30 +31,34 @@ class SimpleGUI:
 #Where the user enters their name 
         self.name_variable = StringVar()
         self.name_label = Label(parent, text="Name")
-        self.name_label.pack()
+        self.name_label.grid()
         self.name_entry = Entry(parent, textvariable=self.name_variable)
-        self.name_entry.pack()
+        self.name_entry.grid()
 
 
 #creates the dropdown list 
         self.option = OptionMenu(parent, self.list_val, *self.menu_items)
-        self.option.pack() 
+        self.option.grid() 
 #button that runs the get selected item functio
         self.button = Button(parent, text="Add Selection to order", command=self.get_selectet_item)
-        self.button.pack()
-
-   
-        
+        self.button.grid()      
     
+
+        self.display_user_order = ScrolledText(parent, width = 30, height = 10, state = 'disabled', wrap = 'word')
+        self.display_user_order.grid(row = 6, columnspan = 2)
 
 #checks to see if selected item is the same as the object created in the str function
     def get_selectet_item(self):
 
         user_order = []
-        
         selected_menu_item = self.list_val.get()
-
         user_order.append(selected_menu_item)
+        
+        self.display_user_order.configure(state = 'normal')
+        
+        for user in user_order:
+            self.display_user_order.insert(END, str(user) + "\n")
+            self.display_user_order.configure(state = 'disabled')
 
         if self.name_entry.get() == "":
             messagebox.showerror("", "Please add an order name")
@@ -70,6 +76,7 @@ if __name__ == "__main__":
 
     root = Tk()
     gui = SimpleGUI(root)
+    root.geometry("350x250+200+200")
     root.title("TAKEAWAY ORDERING SYSTEM")
     root.mainloop()
 
