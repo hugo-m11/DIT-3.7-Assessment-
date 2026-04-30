@@ -52,6 +52,9 @@ class SimpleGUI:
 
         user_order = []
         selected_menu_item = self.list_val.get()
+        if self.name_entry.get() == "":
+            messagebox.showerror("", "Please add an order name")
+            return 
         user_order.append(selected_menu_item)
         
         self.display_user_order.configure(state = 'normal')
@@ -60,8 +63,6 @@ class SimpleGUI:
             self.display_user_order.insert(END, str(user) + "\n")
             self.display_user_order.configure(state = 'disabled')
 
-        if self.name_entry.get() == "":
-            messagebox.showerror("", "Please add an order name")
 
 #loops through the list of menu_items to find matching object
         for item in self.menu_items:
@@ -76,7 +77,7 @@ if __name__ == "__main__":
 
     root = Tk()
     gui = SimpleGUI(root)
-    root.geometry("350x250+200+200")
+    root.geometry("238x250+200+200")
     root.title("TAKEAWAY ORDERING SYSTEM")
     root.mainloop()
 
