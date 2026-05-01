@@ -47,6 +47,10 @@ class SimpleGUI:
         self.display_user_order = ScrolledText(parent, width = 30, height = 10, state = 'disabled', wrap = 'word')
         self.display_user_order.grid(row = 6, columnspan = 2)
 
+
+        self.confirm_order = Button(parent, text="Get Price", command=self.get_price)
+        self.confirm_order.grid()
+
 #checks to see if selected item is the same as the object created in the str function
     def get_selectet_item(self):
 
@@ -68,16 +72,24 @@ class SimpleGUI:
         for item in self.menu_items:
             if str(item) == selected_menu_item:
                 print(item.menu_item_name, item.price)
+
+
+    def get_price(self):
+        selected_menu_item_price = self.list_val.get()
+        
+
     
-    def price_of_order():
-        pass
+
+
+    
+    
 
 
 if __name__ == "__main__":
 
     root = Tk()
     gui = SimpleGUI(root)
-    root.geometry("238x250+200+200")
+    root.geometry("238x300+200+200")
     root.title("TAKEAWAY ORDERING SYSTEM")
     root.mainloop()
 
