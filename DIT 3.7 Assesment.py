@@ -28,69 +28,92 @@ class SimpleGUI:
         self.list_val = StringVar()
         self.list_val.set(str(self.menu_items[0]))
 
-#Where the user enters their name 
+# where the user enters their name 
         self.name_variable = StringVar()
         self.name_label = Label(parent, text="Name")
         self.name_label.grid()
         self.name_entry = Entry(parent, textvariable=self.name_variable)
         self.name_entry.grid()
 
+#list where orders are stored
+        self.user_order = []
 
-#creates the dropdown list 
+
+# creates the dropdown list 
         self.option = OptionMenu(parent, self.list_val, *self.menu_items)
         self.option.grid() 
-#button that runs the get selected item functio
+# button that runs the get selected item functio
         self.button = Button(parent, text="Add Selection to order", command=self.get_selectet_item)
         self.button.grid()      
     
-
+# sets up the scroll window where the orders will be displayed 
         self.display_user_order = ScrolledText(parent, width = 30, height = 10, state = 'disabled', wrap = 'word')
         self.display_user_order.grid(row = 6, columnspan = 2)
 
-
+# button where the user can get the total price of their order 
         self.confirm_order = Button(parent, text="Get Price", command=self.get_price)
         self.confirm_order.grid()
 
-#checks to see if selected item is the same as the object created in the str function
+        self.actually_confirm_order = Button(parent, text="confirm order", command=self.confirm_order)
+        self.actually_confirm_order.grid()
+
+
+        
+
+# checks to see if selected item is the same as the object created in the str function
     def get_selectet_item(self):
 
-        user_order = []
+# gets the currently selected dropdown value (as a string)
         selected_menu_item = self.list_val.get()
+
+# checks to see if the user inputted a name, if not a messagebox pops up     
         if self.name_entry.get() == "":
             messagebox.showerror("", "Please add an order name")
             return 
-        user_order.append(selected_menu_item)
+# adds the selected menu item to the overall list        
+        self.user_order.append(selected_menu_item)
         
+# unlocks the text box, inputs all ordered items into it, and locks it again in order to ensure the user can't edit it
         self.display_user_order.configure(state = 'normal')
         
-        for user in user_order:
+        for user in self.user_order:
             self.display_user_order.insert(END, str(user) + "\n")
             self.display_user_order.configure(state = 'disabled')
 
 
-#loops through the list of menu_items to find matching object
+# loops through the list of menu_items to find matching object
         for item in self.menu_items:
             if str(item) == selected_menu_item:
                 print(item.menu_item_name, item.price)
 
-
+# gets the price of the order
     def get_price(self):
-        selected_menu_item_price = self.list_val.get()
+        total_of_order = 0
+        for order in self.user_order:
+            for item in self.menu_items:
+                if str(item) == order:
+                    total_of_order += item.price
+                    messagebox.showinfo("Total Price", f"Total: ${total_of_order}")
+
+    def confirm_order(self):
+        messagebox.showinfo("", "Thank you for your order")
+        self.name_entry.clear
+        self.user_order.clear
+
+
+    
+
         
-
-    
-
-
-    
-    
-
-
+# mainloop
 if __name__ == "__main__":
 
     root = Tk()
     gui = SimpleGUI(root)
+    # sets window size
     root.geometry("238x300+200+200")
+    # adds a window title
     root.title("TAKEAWAY ORDERING SYSTEM")
+    # runs the mainloop
     root.mainloop()
 
 
