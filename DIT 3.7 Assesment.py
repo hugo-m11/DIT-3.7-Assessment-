@@ -10,7 +10,7 @@ class MenuItems:
         self.price = price
 #function that allows to pass objects as strings 
     def __str__(self):
-        return f"{self.menu_item_name} - ${self.price}"
+        return f"{self.menu_item_name} | ${self.price}"
 
 class SimpleGUI:
     def __init__(self, parent):
@@ -51,8 +51,8 @@ class SimpleGUI:
         self.display_user_order.grid(row = 6, columnspan = 2)
 
 # button where the user can get the total price of their order 
-        self.confirm_order = Button(parent, text="Get Price", command=self.get_price)
-        self.confirm_order.grid()
+        self.get_price_of_order = Button(parent, text="Get Price", command=self.get_price)
+        self.get_price_of_order.grid()
 
         self.actually_confirm_order = Button(parent, text="confirm order", command=self.confirm_order)
         self.actually_confirm_order.grid()
@@ -74,14 +74,13 @@ class SimpleGUI:
         self.user_order.append(selected_menu_item)
         
 # unlocks the text box, inputs all ordered items into it, and locks it again in order to ensure the user can't edit it
-        self.display_user_order.configure(state = 'normal')
         
-        for user in self.user_order:
-            self.display_user_order.insert(END, str(user) + "\n")
-            self.display_user_order.configure(state = 'disabled')
+        self.display_user_order.configure(state = 'normal')
+        self.display_user_order.insert(END, selected_menu_item + "\n")
+        self.display_user_order.configure(state = 'disabled')
 
 
-# loops through the list of menu_items to find matching object
+# loops through the list of menu_items to find matching object and prints
         for item in self.menu_items:
             if str(item) == selected_menu_item:
                 print(item.menu_item_name, item.price)
@@ -96,9 +95,19 @@ class SimpleGUI:
                     messagebox.showinfo("Total Price", f"Total: ${total_of_order}")
 
     def confirm_order(self):
+       
+        self.display_user_order.configure(state='normal')
+        self.display_user_order.insert(END, "---------------------\n")
+      
+
         messagebox.showinfo("", "Thank you for your order")
-        self.name_entry.clear
-        self.user_order.clear
+
+        self.name_entry.delete(0, END)
+        self.user_order.clear()
+
+        self.display_user_order.configure(state='disabled')
+
+
 
 
     
