@@ -7,8 +7,9 @@ class MenuItems:
     def __init__(self, menu_item_name, price):
         self.menu_item_name = menu_item_name
         self.price = price
-#function that allows to pass objects as strings 
+
     def __str__(self):
+#function that allows to pass objects as strings 
         return f"{self.menu_item_name} | ${self.price}"
 
 class SimpleGUI:
@@ -29,7 +30,7 @@ class SimpleGUI:
 
 # where the user enters their name 
         self.name_variable = StringVar()
-        self.name_label = Label(parent, text="Name")
+        self.name_label = Label(parent, text="| Name |")
         self.name_label.grid()
         self.name_entry = Entry(parent, textvariable=self.name_variable)
         self.name_entry.grid()
@@ -41,7 +42,7 @@ class SimpleGUI:
         self.option = OptionMenu(parent, self.list_val, *self.menu_items)
         self.option.grid() 
 # button that runs the get selected item functio
-        self.button = Button(parent, text="Add Selection to order", command=self.get_selectet_item)
+        self.button = Button(parent, text="| Add selection to order |", command=self.get_selectet_item)
         self.button.grid()      
     
 # sets up the scroll window where the orders will be displayed 
@@ -49,14 +50,15 @@ class SimpleGUI:
         self.display_user_order.grid(row = 6, columnspan = 2)
 
 # button where the user can get the total price of their order 
-        self.get_price_of_order = Button(parent, text="Get Price", command=self.get_price)
+        self.get_price_of_order = Button(parent, text="| Get price |", command=self.get_price)
         self.get_price_of_order.grid()
 
-        self.actually_confirm_order = Button(parent, text="confirm order", command=self.confirm_order)
+        self.actually_confirm_order = Button(parent, text="| Confirm order |", command=self.confirm_order)
         self.actually_confirm_order.grid()
 
-# checks to see if selected item is the same as the object created in the str function
+
     def get_selectet_item(self):
+# function that checks to see if selected item is the same as the object created in the str function and adds to order 
 
 # gets the currently selected dropdown value (as a string)
         selected_menu_item = self.list_val.get()
@@ -78,17 +80,22 @@ class SimpleGUI:
             if str(item) == selected_menu_item:
                 print(item.menu_item_name, item.price)
 
-# gets the price of the order
+
     def get_price(self):
+# gets the price of the order
         total_of_order = 0
         for order in self.user_order:
             for item in self.menu_items:
                 if str(item) == order:
                     total_of_order += item.price
-                    messagebox.showinfo("Total Price", f"Total Price of Order: ${total_of_order}")
+        if total_of_order == 0:
+            messagebox.showinfo("", "Nothing ordered")
+        else:
+            messagebox.showinfo("", f"Total Price of Order: ${total_of_order}")
 
-# function for confirming order
+
     def confirm_order(self):
+# function for confirming order
 
 # allows the scroll text to be edited 
         self.display_user_order.configure(state='normal')
@@ -103,6 +110,7 @@ class SimpleGUI:
         self.user_order.clear()
 # locks the scroll text window 
         self.display_user_order.configure(state='disabled')
+
 
 # mainloop
 if __name__ == "__main__":
