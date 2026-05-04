@@ -2,7 +2,6 @@ from tkinter import*
 from tkinter import messagebox
 from tkinter.scrolledtext import*
 
-
 class MenuItems:
 #class that makes the menu items 
     def __init__(self, menu_item_name, price):
@@ -38,7 +37,6 @@ class SimpleGUI:
 #list where orders are stored
         self.user_order = []
 
-
 # creates the dropdown list 
         self.option = OptionMenu(parent, self.list_val, *self.menu_items)
         self.option.grid() 
@@ -57,9 +55,6 @@ class SimpleGUI:
         self.actually_confirm_order = Button(parent, text="confirm order", command=self.confirm_order)
         self.actually_confirm_order.grid()
 
-
-        
-
 # checks to see if selected item is the same as the object created in the str function
     def get_selectet_item(self):
 
@@ -73,12 +68,10 @@ class SimpleGUI:
 # adds the selected menu item to the overall list        
         self.user_order.append(selected_menu_item)
         
-# unlocks the text box, inputs all ordered items into it, and locks it again in order to ensure the user can't edit it
-        
+# unlocks the text box, inputs all ordered items into it, and locks it again in order to ensure the user can't edit it       
         self.display_user_order.configure(state = 'normal')
         self.display_user_order.insert(END, selected_menu_item + "\n")
         self.display_user_order.configure(state = 'disabled')
-
 
 # loops through the list of menu_items to find matching object and prints
         for item in self.menu_items:
@@ -92,27 +85,25 @@ class SimpleGUI:
             for item in self.menu_items:
                 if str(item) == order:
                     total_of_order += item.price
-                    messagebox.showinfo("Total Price", f"Total: ${total_of_order}")
+                    messagebox.showinfo("Total Price", f"Total Price of Order: ${total_of_order}")
 
+# function for confirming order
     def confirm_order(self):
-       
+
+# allows the scroll text to be edited 
         self.display_user_order.configure(state='normal')
+# adds a break in between orders 
         self.display_user_order.insert(END, "---------------------\n")
       
-
+# shows a message thanking the user 
         messagebox.showinfo("", "Thank you for your order")
 
+# clears the entry widget
         self.name_entry.delete(0, END)
         self.user_order.clear()
-
+# locks the scroll text window 
         self.display_user_order.configure(state='disabled')
 
-
-
-
-    
-
-        
 # mainloop
 if __name__ == "__main__":
 
@@ -124,6 +115,3 @@ if __name__ == "__main__":
     root.title("TAKEAWAY ORDERING SYSTEM")
     # runs the mainloop
     root.mainloop()
-
-
-
