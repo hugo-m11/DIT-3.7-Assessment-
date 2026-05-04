@@ -96,6 +96,9 @@ class SimpleGUI:
 
     def confirm_order(self):
 # function for confirming order
+        if len(self.user_order) == 0:
+            messagebox.showinfo("", "Please add a menu item before ordering")
+            return
 
 # allows the scroll text to be edited 
         self.display_user_order.configure(state='normal')
