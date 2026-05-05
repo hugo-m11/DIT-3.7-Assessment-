@@ -96,6 +96,8 @@ class SimpleGUI:
 
     def confirm_order(self):
 # function for confirming order
+
+# checks to make sure that there is actually something ordered 
         if len(self.user_order) == 0:
             messagebox.showinfo("", "Please add a menu item before ordering")
             return
